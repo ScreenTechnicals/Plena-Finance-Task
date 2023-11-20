@@ -1,6 +1,7 @@
 
 # Plena Finance:Task (Completed)
 In this task I have created all the required functionalities according to the document given to me.
+------
 ![app-images](https://github.com/ScreenTechnicals/Plena-Finance-Task/assets/68277286/b7b1efa4-3623-4e81-9b2e-726756cbc91e)
 
 
