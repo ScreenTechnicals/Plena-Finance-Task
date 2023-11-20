@@ -2,6 +2,10 @@
 # Plena Finance:Task (Completed)
 In this task I have created all the required functionalities according to the document given to me.
 
+
+## Demo Video
+[Open Video](https://drive.google.com/file/d/1Nv-9ZHVy2AAwe2eLSw5mc20l_W2gxyQw/view?usp=sharing)
+
 ## Project Overview 
 
 This React Native project is designed to create a mobile app with three screens:
