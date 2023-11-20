@@ -12,15 +12,16 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { StatusBar } from "expo-status-bar";
 import { AntDesign, MaterialCommunityIcons } from "@expo/vector-icons";
 import Carousel from "react-native-reanimated-carousel";
-import { Rating, AirbnbRating } from "react-native-ratings";
+import { AirbnbRating } from "react-native-ratings";
 import useCartStore from "../utils/cartStore";
+import useFavStore from "../utils/favouriteStore";
 
 const Product = ({ navigation, route }) => {
-  const { item } = route.params;
-  const width = Dimensions.get("window").width;
-  //   console.log(Math.round(item?.rating * 10) / 10);
-  //   console.log(item);
-  const { addProduct, items } = useCartStore();
+  const { item } = route.params; //  get the the props
+  const width = Dimensions.get("window").width; // get the width of the mobile screen
+  const { addProduct, items } = useCartStore(); // cart state magnaer
+  const { addFavProduct, fav_products, removeFavProduct } = useFavStore(); // favourite products state manager
+  const isFav = fav_products?.filter((p) => p.isFav); // checking that the given item is added to the favourite list or not
 
   return (
     <SafeAreaView className="w-full bg-white h-full">
@@ -79,8 +80,8 @@ const Product = ({ navigation, route }) => {
           elative w-full mb-10 bottom-12"
           >
             <AirbnbRating
-              //   count={Math.round(item?.rating * 10) / 10}
-              defaultRating={Math.round(item?.rating * 10) / 10}
+              // count={item?.rating}
+              defaultRating={item?.rating}
               size={18}
               unSelectedColor={"#000"}
               ratingContainerStyle={{
@@ -93,6 +94,22 @@ const Product = ({ navigation, route }) => {
           </View>
         </View>
         <View className="relative bottom-7">
+          <TouchableOpacity
+            onPress={() => {
+              if (!isFav?.find((p) => p?.id === item?.id)) {
+                addFavProduct(item);
+              } else {
+                removeFavProduct(item);
+              }
+            }}
+            className="absolute z-[999] bg-[#000000d8] w-[40px] h-[40px] rounded-full flex right-5 items-center justify-center"
+          >
+            <AntDesign
+              name="heart"
+              size={20}
+              color={isFav?.find((p) => p?.id === item?.id) ? "red" : "white"}
+            />
+          </TouchableOpacity>
           <Carousel
             loop
             width={width}
@@ -100,7 +117,6 @@ const Product = ({ navigation, route }) => {
             autoPlay={true}
             data={item?.images}
             scrollAnimationDuration={1000}
-            // onSnapToItem={(index) => console.log("current index:", index)}
             renderItem={({ item, index }) => {
               return (
                 <View className="w-full p-3">

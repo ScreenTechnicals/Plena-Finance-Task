@@ -46,10 +46,11 @@ const useCartStore = create((set) => ({
           .filter((p) => p.quantity > 0),
       };
     }),
-  clearCart: (product) =>
+  clearCart: () =>
     set((state) => {
+      state.subtotal = 0;
       return {
-        product: [],
+        products: [],
         items: 0,
       };
     }),

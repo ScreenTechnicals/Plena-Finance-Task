@@ -4,7 +4,6 @@ import {
   TouchableOpacity,
   TextInput,
   ScrollView,
-  StyleSheet,
   Image,
 } from "react-native";
 import React, { useEffect, useRef, useState } from "react";
@@ -21,18 +20,26 @@ import useFavStore from "../utils/favouriteStore";
 import { StatusBar } from "expo-status-bar";
 
 const Home = ({ navigation }) => {
-  const [loading, setLoading] = useState(true);
+  // All the states for the home page
+  const [loading, setLoading] = useState(true); // used for the loading animation
+  const [toggleAddress, setToggleAddress] = useState(false); // used to show/hide the address page
+  const [selectedTime, setSelectedTime] = useState("1 hour"); // used to display and set the timing for delivery
+  const { addProduct, items } = useCartStore(); // cart state magnaer
+  const { addFavProduct, fav_products, removeFavProduct } = useFavStore(); // favourite products state manager
+  const [searchTerm, setSearchTerm] = useState(""); // for the search input
+  const [address, setAddress] = useState("Add Address"); // to set the address and to display it
+  const [products, setProducts] = useState(null); // to set all the products from the api to a local array
 
+  // temporary user
   const user = {
-    email: "rahul@gmail.com",
+    email: "chinmayasa09@gmail.com",
     uid: "p-90uoi*iu98y7t6re586r97tug",
     token: "89trfl&*Tgiup9y60*TIUFT*TUgjb)",
-    name: "Rahul",
+    name: "Chinmaya",
     image: "",
   };
 
-  const [products, setProducts] = useState(null);
-
+  // This function helps to get the products from the api and once the data is fetched it sets it the products array
   const getProducts = async () => {
     setLoading(true);
     await fetch("https://dummyjson.com/products", {
@@ -53,7 +60,13 @@ const Home = ({ navigation }) => {
         };
       });
   };
-  const pickerRef = useRef();
+
+  const pickerRef = useRef(); // used to select the time picker component
+  // to focus/click on the picker component
+  function open() {
+    pickerRef.current.focus();
+  }
+  // used for calling the products api
   useEffect(() => {
     if (loading) {
       if (products === null) {
@@ -62,21 +75,8 @@ const Home = ({ navigation }) => {
     }
   });
 
-  const colorMode = "light";
-  function open() {
-    pickerRef.current.focus();
-  }
+  const colorMode = "light"; // used for the loading animation color
 
-  const [toggleAddress, setToggleAddress] = useState(false);
-
-  const [selectedTime, setSelectedTime] = useState("1 hour");
-
-  const { addProduct, items } = useCartStore();
-  const { addFavProduct, fav_products, removeFavProduct } = useFavStore();
-
-  const [searchTerm, setSearchTerm] = useState("");
-
-  const [address, setAddress] = useState("Add Address");
   return (
     <SafeAreaView className="w-full bg-white h-full">
       <StatusBar backgroundColor={"#2A4BA0"} style={"light"} />
@@ -86,7 +86,7 @@ const Home = ({ navigation }) => {
             className="text-2xl text-white font-[500]"
             style={{ fontFamily: "Manrope_600SemiBold" }}
           >
-            Hey, Rahul
+            Hey, Chinmaya
           </Text>
           <TouchableOpacity
             onPress={() => {
@@ -396,76 +396,6 @@ const Home = ({ navigation }) => {
 };
 
 export default Home;
-const Spacer = ({ height = 16 }) => <View style={{ height }} />;
 
-const styles = StyleSheet.create({
-  shape: {
-    justifyContent: "center",
-    height: 250,
-    width: 250,
-    borderRadius: 25,
-    marginRight: 10,
-    backgroundColor: "white",
-  },
-  container: {
-    flex: 1,
-    justifyContent: "center",
-  },
-  padded: {
-    padding: 16,
-  },
-  row: {
-    flexDirection: "row",
-    padding: 10,
-    flexWrap: "wrap",
-  },
-  rowIndented: {
-    marginLeft: 30,
-  },
-  right: {
-    flex: 1,
-  },
-  header: {
-    flexDirection: "row",
-    alignItems: "center",
-    marginBottom: 4,
-  },
-  textName: {
-    fontWeight: "bold",
-    fontSize: 16,
-    color: "#222222",
-  },
-  textUsername: {
-    fontSize: 15,
-    marginLeft: 5,
-    color: "#4f5153",
-  },
-  textPost: {
-    fontSize: 15,
-    color: "#4f5153",
-  },
-  actions: {
-    marginTop: 10,
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
-    height: 20,
-  },
-  heart: {
-    width: 20,
-    height: 20,
-    tintColor: "#6e7f8d",
-  },
-  heartFilled: {
-    tintColor: "#df245e",
-  },
-  heartLottie: {
-    width: 50,
-    height: 50,
-    marginLeft: -5,
-  },
-  textDate: {
-    color: "#6e7f8d",
-    fontSize: 14,
-  },
-});
+// Spacing created to separate the loaders
+const Spacer = ({ height = 16 }) => <View style={{ height }} />;

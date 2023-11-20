@@ -7,29 +7,27 @@ import {
   Image,
 } from "react-native";
 import React from "react";
-import { StatusBar } from "expo-status-bar";
-
 import { Ionicons } from "@expo/vector-icons";
 import useFavStore from "../utils/favouriteStore";
 import { AntDesign, MaterialCommunityIcons } from "@expo/vector-icons";
 import useCartStore from "../utils/cartStore";
 
 const Favourites = ({ navigation }) => {
-  const { addProduct, items } = useCartStore();
-  const { addFavProduct, fav_products, removeFavProduct } = useFavStore();
-  let x = 0;
+  const { addProduct, items } = useCartStore(); // cart state magnaer
+  const { addFavProduct, fav_products, removeFavProduct } = useFavStore(); // favourite products state manager
+  let x = 0; // used for the indexing in flat list
+
+  // temporary user
   const user = {
-    email: "rahul@gmail.com",
+    email: "chinmayasa09@gmail.com",
     uid: "p-90uoi*iu98y7t6re586r97tug",
     token: "89trfl&*Tgiup9y60*TIUFT*TUgjb)",
-    name: "Rahul",
+    name: "Chinmaya",
     image: "",
   };
 
   return (
     <SafeAreaView className="w-full bg-white h-full pt-7">
-      {/* <StatusBar backgroundColor={"#fff"} barStyle={"dark-content"} /> */}
-
       <View className="p-5 flex items-center flex-row justify-between">
         <View className="flex flex-row items-center gap-3">
           <TouchableOpacity

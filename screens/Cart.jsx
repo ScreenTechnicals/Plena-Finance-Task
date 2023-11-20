@@ -1,21 +1,16 @@
 import { View, Text, TouchableOpacity, FlatList, Image } from "react-native";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { Ionicons } from "@expo/vector-icons";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { StatusBar } from "expo-status-bar";
 import { AntDesign } from "@expo/vector-icons";
 import useCartStore from "../utils/cartStore";
-// import { MMKV } from "react-native-mmkv";
 
-const Cart = ({ navigation, route }) => {
-  // const storage = new MMKV();
-  // const cartStorage = JSON.parse(storage.getString("cart")) || [];
-  // const [loading, setLoading] = useState(true);
+const Cart = ({ navigation }) => {
+  const { addProduct, items, reduceProduct, products, subtotal, clearCart } =
+    useCartStore(); // cart state magnaer
 
-  const { addProduct, items, reduceProduct, products, subtotal } =
-    useCartStore();
-
-  let x = 1;
+  let x = 1; // used for index in flat list
 
   return (
     <SafeAreaView className="w-full bg-white h-full">
@@ -57,9 +52,6 @@ const Cart = ({ navigation, route }) => {
                   <View className="flex items-center flex-row gap-3">
                     <TouchableOpacity
                       onPress={() => {
-                        // setLoading(true);
-                        // addToCart(item?.id);
-                        // setCartLength(cartLength + 1);
                         addProduct(item);
                       }}
                       className="w-[40px] h-[40px] flex items-center justify-center bg-gray-100 rounded-full"
@@ -95,12 +87,17 @@ const Cart = ({ navigation, route }) => {
 
       {products?.length > 0 && (
         <View className="flex flex-row justify-end items-center px-5">
-          <TouchableOpacity className="w-max ">
+          <TouchableOpacity
+            onPress={() => {
+              clearCart();
+            }}
+            className="w-max"
+          >
             <Text
               style={{ fontFamily: "Manrope_400Regular" }}
               className="text-base text-[#2A4BA0]"
             >
-              Edit
+              Clear Cart
             </Text>
           </TouchableOpacity>
         </View>
